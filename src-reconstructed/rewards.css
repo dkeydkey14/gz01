@@ -1,0 +1,302 @@
+/**
+ * Giao diện + hiệu ứng trang reward — trích từ bundle (index-BRKG845p.css)
+ * Dùng kèm Tailwind (hoặc utility tương ứng).
+ */
+
+/* ---- Background ---- */
+.reward-bg-responsive {
+  background-image: url(/assets/images/bg_mobile.png);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: scroll;
+  background-size: 100% 100%;
+  min-height: 100vh;
+}
+@media (min-width: 535px) {
+  .reward-bg-responsive {
+    background-image: url(/assets/images/bg.png);
+    background-size: 100% 100%;
+    background-position: center top;
+    background-attachment: scroll;
+  }
+}
+
+.reward-header { display: flex; }
+@media (max-width: 534px) {
+  .reward-header { display: none; }
+  .reward-main-content { margin-top: 14rem; }
+}
+
+.reward-main-content { padding-top: 0; }
+@media (min-width: 535px) {
+  .reward-main-content { padding-top: 1rem; margin-top: 2rem; }
+}
+@media (min-width: 640px) {
+  .reward-main-content { padding-top: 1.5rem; margin-top: 0; }
+}
+@media (min-width: 768px) {
+  .reward-main-content { padding-top: 2rem; }
+}
+@media (min-width: 1024px) {
+  .reward-main-content { padding-top: 3rem; }
+}
+
+/* ---- Background particles (vàng nhạt nổi) ---- */
+.background-particles {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.background-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(255,215,0,.6) 0%, transparent 100%);
+  border-radius: 50%;
+  animation: particle-float 15s ease-in-out infinite;
+}
+
+@keyframes particle-float {
+  0%, 100% { transform: translateY(0) translate(0) rotate(0); opacity: .3; }
+  50% { transform: translateY(-100px) translate(50px) rotate(180deg); opacity: .8; }
+}
+
+/* ---- Confetti rơi ---- */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: var(--confetti-color, #FFD700);
+  animation: confetti-fall 3s linear forwards;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-100vh) rotate(0); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ---- Mưa phong bì (envelope rain) ---- */
+.envelope-rain-wrapper {
+  position: absolute;
+  top: -200px;
+  animation: rain-fall cubic-bezier(.4, 0, .2, 1) infinite;
+  animation-duration: var(--rain-duration, 8s);
+  will-change: transform, opacity;
+  z-index: 50;
+  --swing-x: calc((var(--random-swing, 0) - .5) * 30px);
+}
+
+.envelope-rain {
+  animation: rain-rotate ease-in-out infinite;
+  animation-duration: var(--rain-duration, 8s);
+  will-change: transform;
+  position: relative;
+}
+
+.envelope-rain::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle, rgba(255,215,0,.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: trail-fade .5s ease-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.envelope-rain-img {
+  width: 2.5rem;
+  height: auto;
+  opacity: 1;
+  filter: drop-shadow(0 4px 20px rgba(255,215,0,.6)) drop-shadow(0 0 30px rgba(255,165,0,.4)) brightness(1.2);
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  transform-origin: center center;
+  animation: envelope-glow 2s ease-in-out infinite;
+  transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.envelope-rain-wrapper:hover .envelope-rain-img {
+  filter: drop-shadow(0 8px 40px rgba(255,215,0,1)) drop-shadow(0 0 50px rgba(255,165,0,.8)) brightness(1.5);
+  transform: scale(1.2) !important;
+}
+
+.envelope-rain-wrapper:active .envelope-rain-img {
+  transform: scale(.9) !important;
+}
+
+@keyframes rain-fall {
+  0% { transform: translateY(-200px) translate(0); opacity: 0; }
+  5% { opacity: 1; }
+  50% { transform: translateY(50vh) translate(var(--swing-x, 0px)); }
+  95% { opacity: 1; }
+  100% { transform: translateY(calc(100vh + 200px)) translate(var(--swing-x, 0px)); opacity: 0; }
+}
+
+@keyframes rain-rotate {
+  0% { transform: rotate(var(--initial-rotation, 0deg)) scale(1); }
+  25% { transform: rotate(calc(var(--initial-rotation, 0deg) + 90deg)) scale(1.05); }
+  50% { transform: rotate(calc(var(--initial-rotation, 0deg) + 180deg)) scale(1); }
+  75% { transform: rotate(calc(var(--initial-rotation, 0deg) + 270deg)) scale(1.05); }
+  100% { transform: rotate(calc(var(--initial-rotation, 0deg) + 360deg)) scale(1); }
+}
+
+@keyframes envelope-glow {
+  0%, 100% { filter: drop-shadow(0 4px 20px rgba(255,215,0,.6)) drop-shadow(0 0 30px rgba(255,165,0,.4)) brightness(1.2); }
+  50% { filter: drop-shadow(0 6px 30px rgba(255,215,0,.8)) drop-shadow(0 0 40px rgba(255,165,0,.6)) brightness(1.4); }
+}
+
+@keyframes trail-fade {
+  0% { opacity: .8; transform: scale(1.2) translateY(0); }
+  100% { opacity: 0; transform: scale(.8) translateY(20px); }
+}
+
+.envelope-particles {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.envelope-particle {
+  position: absolute;
+  width: 4px; height: 4px;
+  background: radial-gradient(circle, gold, orange);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255,215,0,.8);
+  animation: particle-fall 1.5s ease-out infinite;
+  --particle-x: calc((var(--particle-offset, .5) - .5) * 40px);
+}
+
+.envelope-particle:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; --particle-offset: .3; }
+.envelope-particle:nth-child(2) { top: 40%; left: 60%; animation-delay: .2s; --particle-offset: .7; }
+.envelope-particle:nth-child(3) { top: 60%; left: 20%; animation-delay: .4s; --particle-offset: .2; }
+.envelope-particle:nth-child(4) { top: 80%; left: 70%; animation-delay: .6s; --particle-offset: .8; }
+
+@keyframes particle-fall {
+  0% { transform: translateY(0) translate(0) rotate(0); opacity: 1; }
+  100% { transform: translateY(100px) translate(var(--particle-x, 20px)) rotate(360deg); opacity: 0; }
+}
+
+@media (min-width: 640px) {
+  .envelope-rain-img { width: 3rem; }
+}
+@media (min-width: 768px) {
+  .envelope-rain-img { width: 3.5rem; }
+}
+@media (min-width: 1024px) {
+  .envelope-rain-img { width: 4rem; }
+}
+@media (max-width: 640px) {
+  .envelope-rain { animation-duration: 5s !important; }
+  .envelope-rain-wrapper:nth-child(n+10) { display: none; }
+}
+@media (min-width: 1920px) {
+  .envelope-rain { animation-duration: 10s !important; }
+}
+
+/* ---- Cuộn dọc danh sách trúng ---- */
+@keyframes scroll-vertical {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.animate-scroll-vertical {
+  animation: scroll-vertical 15s linear infinite;
+  will-change: transform;
+}
+.animate-scroll-vertical:hover { animation-play-state: paused; }
+
+@media (max-width: 375px) { .animate-scroll-vertical { animation-duration: 10s; } }
+@media (max-width: 640px) { .animate-scroll-vertical { animation-duration: 12s; } }
+@media (min-width: 1920px) { .animate-scroll-vertical { animation-duration: 18s; } }
+
+/* ---- Fade in / scale in ---- */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  0% { opacity: 0; transform: scale(.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in-up { animation: fadeInUp .6s ease-out forwards; }
+.animate-scale-in { animation: scaleIn .5s ease-out forwards; }
+
+/* ---- Nút phong bì: bounce, sparkle, ripple ---- */
+@keyframes bounce-in {
+  0% { transform: scale(.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.bounce-in { animation: bounce-in .6s ease-out; }
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0); }
+  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+.sparkle-effect { position: relative; overflow: hidden; }
+.sparkle-effect::before,
+.sparkle-effect::after {
+  content: "";
+  position: absolute;
+  width: 20px; height: 20px;
+  background: radial-gradient(circle, rgba(255,255,255,.8) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sparkle 2s ease-in-out infinite;
+}
+.sparkle-effect::before { top: 20%; left: 20%; animation-delay: 0s; }
+.sparkle-effect::after { top: 60%; right: 20%; animation-delay: 1s; }
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(4); opacity: 0; }
+}
+.ripple-effect { position: relative; overflow: hidden; }
+.ripple-effect::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.5);
+  transform: translate(-50%, -50%);
+  transition: width .6s, height .6s;
+}
+.ripple-effect:active::after {
+  width: 300px; height: 300px;
+  animation: ripple .6s ease-out;
+}
+
+.zoom-on-hover { transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
+.zoom-on-hover:hover { transform: scale(1.01); }
+
+/* ---- Input mã: pulse glow, shimmer ---- */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,.4), 0 0 40px rgba(255,165,0,.2), 0 0 60px rgba(255,140,0,.1); }
+  50% { box-shadow: 0 0 30px rgba(255,215,0,.8), 0 0 60px rgba(255,165,0,.4), 0 0 90px rgba(255,140,0,.2); }
+}
+.pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.3) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.magnetic-hover { transition: transform .3s cubic-bezier(.23, 1, .32, 1); }
+.magnetic-hover:hover { transform: translateY(-5px) scale(1.05); }
